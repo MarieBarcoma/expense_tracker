@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:expense_tracker/widgets/expenses.dart';
 
+// Changed seed color to dark teal/green to match the course snapshot
 var kColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(255, 96, 59, 181),
+  seedColor: const Color.fromARGB(255, 240, 47, 224),
 );
 
 var kDarkColorScheme = ColorScheme.fromSeed(
@@ -35,8 +35,8 @@ void main() {
         useMaterial3: true,
         colorScheme: kColorScheme,
         appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: kColorScheme.onPrimaryContainer,
-          foregroundColor: kColorScheme.primaryContainer,
+          backgroundColor: kColorScheme.primary,
+          foregroundColor: kColorScheme.onPrimary,
         ),
         cardTheme: const CardThemeData().copyWith(
           color: kColorScheme.secondaryContainer,
@@ -58,7 +58,7 @@ void main() {
               ),
             ),
       ),
-      // themeMode: ThemeMode.system, // default
+      themeMode: ThemeMode.system, // Keeps support for dark/light switching
       home: const Expenses(),
     ),
   );
