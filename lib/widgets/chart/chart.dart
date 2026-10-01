@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:expense_tracker/widgets/chart/chart_bar.dart';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/widgets/chart/chart_bar.dart';
 
 class Chart extends StatelessWidget {
   const Chart({super.key, required this.expenses});
@@ -18,21 +17,22 @@ class Chart extends StatelessWidget {
   }
 
   double get maxTotalExpense {
-    double maxTotalExpense = 0;
+    double maxTotal = 0;
 
     for (final bucket in buckets) {
-      if (bucket.totalExpenses > maxTotalExpense) {
-        maxTotalExpense = bucket.totalExpenses;
+      if (bucket.totalExpenses > maxTotal) {
+        maxTotal = bucket.totalExpenses;
       }
     }
 
-    return maxTotalExpense;
+    return maxTotal;
   }
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.symmetric(
@@ -45,8 +45,8 @@ class Chart extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           colors: [
-            Theme.of(context).colorScheme.primary.withOpacity(0.3),
-            Theme.of(context).colorScheme.primary.withOpacity(0.0)
+            Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+            Theme.of(context).colorScheme.primary.withValues(alpha: 0.0),
           ],
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
@@ -58,18 +58,18 @@ class Chart extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                for (final bucket in buckets) // alternative to map()
+                for (final bucket in buckets)
                   ChartBar(
-                    fill: bucket.totalExpenses == 0
+                    fill: maxTotalExpense == 0
                         ? 0
                         : bucket.totalExpenses / maxTotalExpense,
-                  )
+                  ),
               ],
             ),
           ),
           const SizedBox(height: 12),
           Row(
-            children: buckets // for ... in
+            children: buckets
                 .map(
                   (bucket) => Expanded(
                     child: Padding(
@@ -81,13 +81,13 @@ class Chart extends StatelessWidget {
                             : Theme.of(context)
                                 .colorScheme
                                 .primary
-                                .withOpacity(0.7),
+                                .withValues(alpha: 0.7),
                       ),
                     ),
                   ),
                 )
                 .toList(),
-          )
+          ),
         ],
       ),
     );
