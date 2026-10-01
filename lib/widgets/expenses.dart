@@ -93,7 +93,7 @@ class _ExpensesState extends State<Expenses> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Expense Tracker'),
+        title: const Text('Expense Tracker'),
         foregroundColor: Colors.white,
         actions: [
           // Dark Mode Toggle Icon Button
