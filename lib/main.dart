@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/widgets/expenses.dart';
 
-// Changed seed color to dark teal/green to match the course snapshot
 var kColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(255, 240, 47, 224),
+  seedColor: const Color.fromARGB(255, 30, 90, 75),
 );
 
 var kDarkColorScheme = ColorScheme.fromSeed(
@@ -12,8 +11,36 @@ var kDarkColorScheme = ColorScheme.fromSeed(
 );
 
 void main() {
-  runApp(
-    MaterialApp(
+  runApp(const ExpenseApp());
+}
+
+class ExpenseApp extends StatefulWidget {
+  const ExpenseApp({super.key});
+
+  @override
+  State<ExpenseApp> createState() => _ExpenseAppState();
+}
+
+class _ExpenseAppState extends State<ExpenseApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+
+  void _toggleTheme() {
+    setState(() {
+      if (_themeMode == ThemeMode.dark) {
+        _themeMode = ThemeMode.light;
+      } else {
+        _themeMode = ThemeMode.dark;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = _themeMode == ThemeMode.dark ||
+        (_themeMode == ThemeMode.system &&
+            MediaQuery.of(context).platformBrightness == Brightness.dark);
+
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark().copyWith(
         colorScheme: kDarkColorScheme,
@@ -35,7 +62,7 @@ void main() {
         colorScheme: kColorScheme,
         appBarTheme: const AppBarTheme().copyWith(
           backgroundColor: kColorScheme.primary,
-          foregroundColor: kColorScheme.onPrimary,
+          foregroundColor: Colors.white,
         ),
         cardTheme: const CardThemeData().copyWith(
           color: kColorScheme.secondaryContainer,
@@ -57,8 +84,11 @@ void main() {
               ),
             ),
       ),
-      themeMode: ThemeMode.system, // Keeps support for dark/light switching
-      home: const Expenses(),
-    ),
-  );
+      themeMode: _themeMode,
+      home: Expenses(
+        onToggleTheme: _toggleTheme,
+        isDarkMode: isDarkMode,
+      ),
+    );
+  }
 }
